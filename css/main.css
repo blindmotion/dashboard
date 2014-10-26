@@ -2,15 +2,10 @@ video, input {
     display: block;
 }
 
-input {
-    width: 100%;
+.menuItem {
+    display: inline-block;
 }
 
-.info {
-    background-color: aqua;
-}
-
-.error {
-    background-color: red;
-    color: white;
+#speedOutput {
+    width: 30px;
 }
