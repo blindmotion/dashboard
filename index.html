@@ -11,6 +11,7 @@
 </head>
 
 <body>
+
 <div id="playerScope" align="center">
     <h1>HTML5 local video file player example</h1>
 
@@ -23,7 +24,33 @@
     <output id="testOutput" for="player">0</output>
 </div>
 
+<div id="chartScope" align="center" class="chartItem">
+    <input id="dataFile" type="file" size="auto" name="files" accept=".csv" />
+    <br>
+    <div>
+        <input id="datasetButton"
+               type="button"
+               onclick="cerr(showDataset(chart.dataset));"
+               value="Show dataset" />
+        <input id="datasetButton2"
+               type="button"
+               onclick="document.getElementById('chartDebugOutput').innerHTML = '';"
+               value="Delete output" />
+        <output id="chartDebugOutput"></output>
+    </div>
+    <div id="chart" style="height: 100%; width: 95%">
+        <canvas id="canvas" height="auto" width="auto"></canvas>
+    </div>
+    <form id="choiceForm">
+    </form>
+</div>
+
 <script src="js/main.js"></script>
+<script src="js/chartUtils.js"></script>
+<script src="js/chart.js"></script>
+<script src="js/readFile.js"></script>
+<script src="js/subscriptions.js"></script>
+<script src="Chart.js/Chart.js"></script>
 
 </body>
 </html>

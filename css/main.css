@@ -9,3 +9,7 @@ video, input {
 #speedOutput {
     width: 30px;
 }
+
+.chartItem {
+    display: inline;
+}
