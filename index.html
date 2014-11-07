@@ -1,56 +1,105 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Video player test</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="css/main.css">
-</head>
+<title>Dashboard</title>
 
-<body>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<div id="playerScope" align="center">
-    <h1>HTML5 local video file player example</h1>
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/bootstrap.min.css">
 
-    <input id="fileInput" type="file" accept="video/*" size="auto" list/>
-    <video id="player" controls autoplay></video>
-    <div id="speedMenu">
-        <input id="speedSlider" class="menuItem" type="range" min="0" max="4" value="1" step="0.25" size="100" oninput="changeSpeed()"/>
-        <output id="speedOutput" class="menuItem" for="speed">1</output>
-    </div>
-    <output id="testOutput" for="player">0</output>
-</div>
-
-<div id="chartScope" align="center" class="chartItem">
-    <input id="dataFile" type="file" size="auto" name="files" accept=".csv" />
-    <br>
-    <div>
-        <input id="datasetButton"
-               type="button"
-               onclick="cerr(showDataset(chart.dataset));"
-               value="Show dataset" />
-        <input id="datasetButton2"
-               type="button"
-               onclick="document.getElementById('chartDebugOutput').innerHTML = '';"
-               value="Delete output" />
-        <output id="chartDebugOutput"></output>
-    </div>
-    <div id="chart" style="height: 100%; width: 95%">
-        <canvas id="canvas" height="auto" width="auto"></canvas>
-    </div>
-    <form id="choiceForm">
-    </form>
-</div>
-
-<script src="js/main.js"></script>
+<script src="js/chartjs/Chart.js"></script>
 <script src="js/chartUtils.js"></script>
 <script src="js/chart.js"></script>
 <script src="js/readFile.js"></script>
-<script src="js/subscriptions.js"></script>
-<script src="js/chartjs/Chart.js"></script>
+<script src="js/main.js"></script>
+
+<body onload="onLoad();">
+
+<div id="root" class="container" align="center">
+    <h2>Dashboard</h2>
+    <div id="playerScope" class="container-fluid well">
+
+        <div class="row">
+            <video id="player" width="640" height="480" controls autoplay></video>
+        </div>
+
+        <div class="row">
+            <div class="col-md-offset-2 col-xs-offset-2 col-md-6 col-xs-6">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <span class="btn btn-primary btn-file">
+                            Browse&hellip; <input id="fileInput" type="file"
+                                accept="video/*">
+                        </span>
+                    </span>
+                    <input type="text" class="form-control" readonly>
+                </div>
+                <span class="help-block">
+                    Select video file
+                </span>
+            </div>
+
+            <div id="speedMenu" class="col-md-2 col-xs-2">
+                <div class="row">
+                    <input id="speedSlider" type="range"
+                        min="0" max="4" value="1" step="0.25"
+                        size="100" oninput="changeSpeed()"/>
+                </div>
+
+                <div class="row">
+                    <output id="speedOutput" for="speed">1</output>
+                </div>
+
+                <output id="testOutput" for="player"
+                    style="display: none;">0</output>
+            </div>
+        </div>
+    </div>
+
+    <div id="chartScope" class="container-fluid well">
+        <div id="chart" class="row" height="150px">
+            <canvas id="canvas"></canvas>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-xs-6 col-md-offset-3 col-xs-offset-3">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <span class="btn btn-primary btn-file">
+                            Browse&hellip; <input id="dataFile" type="file"
+                                accept=".csv">
+                        </span>
+                    </span>
+                    <input type="text" class="form-control" readonly>
+                </div>
+                <span class="help-block">
+                    Select csv with data
+                </span>
+            </div>
+        </div>
+
+        <div class="row">
+            <input id="datasetButton"
+                   class="btn btn-sm btn-primary"
+                   type="button"
+                   onclick="cerr(showDataset(chart.dataset));"
+                   value="Show dataset" />
+            <input id="datasetButton2"
+                   class="btn btn-sm btn-primary"
+                   type="button"
+                   onclick="document.getElementById('chartDebugOutput').innerHTML = '';"
+                   value="Delete output" />
+            <output id="chartDebugOutput"></output>
+        </div>
+
+        <form id="choiceForm">
+        </form>
+    </div>
+</div>
 
 </body>
 </html>

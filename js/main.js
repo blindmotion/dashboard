@@ -17,7 +17,16 @@ function test ()
     testOutput.value = videoNode.currentTime;
 }
 
-(function localFileVideoPlayerInit(win) {
+function onLoad() {
+    localFileVideoPlayerInit(window);
+
+    document.getElementById('dataFile').addEventListener('change',
+        fileReader.handleFileSelect, false);
+    fileReader.on('chartLoaded', chart.updateDataset);
+    chart.on('conditionChanged', chart.rerender);
+}
+
+function localFileVideoPlayerInit(win) {
     var URL = win.URL || win.webkitURL;
     var displayMessage = (function displayMessageInit() {
             var node = document.querySelector('#message');
@@ -49,4 +58,4 @@ function test ()
 
     inputNode.addEventListener('change', playSelectedFile, false);
     videoNode.addEventListener('timeupdate', test)
-}(window));
+};

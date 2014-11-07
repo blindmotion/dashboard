@@ -1,5 +1,14 @@
-video, input {
+input {
     display: block;
+}
+
+video {
+    display: block;
+    background-color: black;
+}
+
+body {
+    background: url("img/background.jpg") repeat;
 }
 
 .menuItem {
@@ -12,4 +21,37 @@ video, input {
 
 .chartItem {
     display: inline;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+#canvas {
+    background-color: white;
+    border: 1px solid #ccc;
+}
+
+.well {
+    background-color: rgba(199, 199, 199, 0.15) !important;
+    border: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
 }
