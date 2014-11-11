@@ -11,10 +11,11 @@
 <link rel="stylesheet" href="css/main.css">
 <link rel="stylesheet" href="css/bootstrap.min.css">
 
-<script src="js/chartjs/Chart.js"></script>
-<script src="js/chartUtils.js"></script>
-<script src="js/chart.js"></script>
-<script src="js/readFile.js"></script>
+<script src="amcharts/amcharts.js"></script>
+<script src="amcharts/serial.js"></script>
+<script src="amcharts/themes/light.js"></script>
+<script src="js/jquery-1.11.1.js"></script>
+<script src="js/compiled/deps.js"></script>s
 <script src="js/main.js"></script>
 
 <body onload="onLoad();">
@@ -61,8 +62,8 @@
     </div>
 
     <div id="chartScope" class="container-fluid well">
-        <div id="chart" class="row" height="150px">
-            <canvas id="canvas"></canvas>
+        <div class="row" >
+            <div id="main-chart" class="chart"></div>
         </div>
 
         <div class="row">
@@ -80,20 +81,6 @@
                     Select csv with data
                 </span>
             </div>
-        </div>
-
-        <div class="row">
-            <input id="datasetButton"
-                   class="btn btn-sm btn-primary"
-                   type="button"
-                   onclick="cerr(showDataset(chart.dataset));"
-                   value="Show dataset" />
-            <input id="datasetButton2"
-                   class="btn btn-sm btn-primary"
-                   type="button"
-                   onclick="document.getElementById('chartDebugOutput').innerHTML = '';"
-                   value="Delete output" />
-            <output id="chartDebugOutput"></output>
         </div>
 
         <form id="choiceForm">

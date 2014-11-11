@@ -8,7 +8,7 @@ video {
 }
 
 body {
-    background: url("img/background.jpg") repeat;
+
 }
 
 .menuItem {
@@ -44,9 +44,12 @@ body {
     display: block;
 }
 
-#canvas {
+.chart {
     background-color: white;
     border: 1px solid #ccc;
+    height: 400px;
+    width: 96%;
+    margin: 0 0 10px 0;
 }
 
 .well {

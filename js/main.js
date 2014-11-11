@@ -1,3 +1,5 @@
+var chart = undefined;
+
 function changeSpeed ()
 {
     var videoNode = document.getElementById('player');
@@ -20,10 +22,18 @@ function test ()
 function onLoad() {
     localFileVideoPlayerInit(window);
 
+    chart = new ChartManager('main-chart');
+
+    window.fileLoader.bind("load", function(err, data) {
+        if (err == undefined) {
+            chart.drawSpecificData(data);
+        } else {
+            console.log(err);
+        }
+    })
+
     document.getElementById('dataFile').addEventListener('change',
-        fileReader.handleFileSelect, false);
-    fileReader.on('chartLoaded', chart.updateDataset);
-    chart.on('conditionChanged', chart.rerender);
+        function(event) {window.fileLoader.loadFromFile(event)}, false);
 }
 
 function localFileVideoPlayerInit(win) {
