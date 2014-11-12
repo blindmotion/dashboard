@@ -29,18 +29,33 @@
         </div>
 
         <div class="row">
-            <div class="col-md-offset-2 col-xs-offset-2 col-md-6 col-xs-6">
+            <div class="col-md-offset-1 col-xs-offset-1 col-md-4 col-xs-4">
                 <div class="input-group">
                     <span class="input-group-btn">
                         <span class="btn btn-primary btn-file">
-                            Browse&hellip; <input id="fileInput" type="file"
+                            Browse&hellip; <input id="videoInput" type="file"
                                 accept="video/*">
                         </span>
                     </span>
-                    <input type="text" class="form-control" readonly>
+                    <input type="text" id="videoInputLabel" class="form-control" readonly>
                 </div>
                 <span class="help-block">
                     Select video file
+                </span>
+            </div>
+
+            <div class="col-md-4 col-xs-4">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <span class="btn btn-primary btn-file">
+                            Browse&hellip; <input id="srtInput" type="file"
+                                accept=".srt">
+                        </span>
+                    </span>
+                    <input type="text" id="srtInputLabel" class="form-control" readonly>
+                </div>
+                <span class="help-block">
+                    Select srt file
                 </span>
             </div>
 
@@ -71,11 +86,11 @@
                 <div class="input-group">
                     <span class="input-group-btn">
                         <span class="btn btn-primary btn-file">
-                            Browse&hellip; <input id="dataFile" type="file"
+                            Browse&hellip; <input id="dataFileInput" type="file"
                                 accept=".csv">
                         </span>
                     </span>
-                    <input type="text" class="form-control" readonly>
+                    <input type="text" id="dataFileLabel" class="form-control" readonly>
                 </div>
                 <span class="help-block">
                     Select csv with data

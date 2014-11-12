@@ -24,7 +24,7 @@ function onLoad() {
 
     chart = new ChartManager('main-chart');
 
-    window.fileLoader.bind("load", function(err, data) {
+    window.fileLoader.bind('load', function(err, data) {
         if (err == undefined) {
             chart.drawSpecificData(data);
         } else {
@@ -32,8 +32,12 @@ function onLoad() {
         }
     })
 
-    document.getElementById('dataFile').addEventListener('change',
-        function(event) {window.fileLoader.loadFromFile(event)}, false);
+    var srtInputManager = new FileSelectorManager('srtInput', 'srtInputLabel');
+    //srtInputManager.bind('change', playSelectedFile, false);
+
+    var dataInputManager = new FileSelectorManager('dataFileInput', 'dataFileLabel');
+    dataInputManager.bind('change',
+        function(input, event) {window.fileLoader.loadFromFile(event)});
 }
 
 function localFileVideoPlayerInit(win) {
@@ -46,8 +50,8 @@ function localFileVideoPlayerInit(win) {
                 node.className = isError ? 'error' : 'info';
             };
         }());
-    var playSelectedFile = function playSelectedFileInit(event) {
-            var file = this.files[0];
+    var playSelectedFile = function playSelectedFileInit(input, event) {
+            var file = input.files[0];
             var videoNode = document.getElementById('player');
             var speedSlider = document.getElementById('speedSlider');
             var fileURL = URL.createObjectURL(file);
@@ -56,7 +60,6 @@ function localFileVideoPlayerInit(win) {
             videoNode.playbackRate = parseFloat(speedSlider.value);
         };
 
-    var inputNode = document.getElementById('fileInput');
     var videoNode = document.getElementById('player');
 
     if (!URL) {
@@ -66,6 +69,8 @@ function localFileVideoPlayerInit(win) {
         return;
     }
 
-    inputNode.addEventListener('change', playSelectedFile, false);
+    var videoInputManager = new FileSelectorManager('videoInput', 'videoInputLabel');
+    videoInputManager.bind('change', playSelectedFile, false);
+
     videoNode.addEventListener('timeupdate', test)
 };

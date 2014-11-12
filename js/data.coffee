@@ -6,7 +6,6 @@ class Data
 class FileCsvLoader
 
     constructor: () ->
-        @subscribers = []
         @data = null
         @obs = new Observer()
 
@@ -30,3 +29,26 @@ class FileCsvLoader
     trigger: (event, args...) => @obs.trigger(event, args...)
 
 window.fileLoader = new FileCsvLoader()
+
+class FileSelectorManager
+    constructor: (inputElementId, labelElementId) ->
+        if inputElementId == undefined || labelElementId == undefined
+            throw new Error('Wrong arguments')
+
+        @obs = new Observer()
+        @inputElement = $('#' + inputElementId)
+        @labelElement = $('#' + labelElementId)
+
+        @inputElement.change( @onFileSelected )
+
+    onFileSelected: (event) =>
+        filename = @inputElement.val().replace(/\\/g, '/').replace(/.*\//, '');
+
+        @trigger('change', @inputElement.get()[0], event)
+        @labelElement.val(filename)
+
+    bind: (event, fn) => @obs.bind(event, fn)
+    unbind: (event, fn) => @obs.unbind(event, fn)
+    trigger: (event, args...) => @obs.trigger(event, args...)
+
+window.FileSelectorManager = FileSelectorManager
