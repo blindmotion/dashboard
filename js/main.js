@@ -26,14 +26,19 @@ function onLoad() {
 
     window.fileLoader.bind('load', function(err, data) {
         if (err == undefined) {
-            chart.drawSpecificData(data);
+            chart.setData(data);
         } else {
             console.log(err);
         }
     })
 
     var srtInputManager = new FileSelectorManager('srtInput', 'srtInputLabel');
-    //srtInputManager.bind('change', playSelectedFile, false);
+    srtInputManager.bind('change', function(input, event) {
+        getDataFromFile(event, function(data) {
+            var interval = getIntervalFromSrt(data);
+            chart.setInterval(interval);
+        });
+    });
 
     var dataInputManager = new FileSelectorManager('dataFileInput', 'dataFileLabel');
     dataInputManager.bind('change',

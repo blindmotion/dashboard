@@ -1,7 +1,15 @@
-class DataProvider
-    getData: ->
+getDataFromFile = (event, callback) ->
+    file = event.target.files[0]
 
-class Data
+    onData = (event) ->
+        data = event.target.result
+        callback(data)
+
+    reader = new FileReader()
+    reader.addEventListener 'load', (event) => onData(event)
+    reader.readAsText(file)
+
+window.getDataFromFile = getDataFromFile
 
 class FileCsvLoader
 
@@ -52,3 +60,23 @@ class FileSelectorManager
     trigger: (event, args...) => @obs.trigger(event, args...)
 
 window.FileSelectorManager = FileSelectorManager
+
+getIntervalFromSrt = (str) ->
+    patt = new RegExp("[0-9]{2}\.[0-9]{2}\.[0-9]{4} [0-9]{2}\:[0-9]{2}\:[0-9]{2}", "g");
+
+    startStr = patt.exec(str)
+    if startStr == null
+        return null
+
+    current = startStr
+
+    while current != null
+        endStr = current
+        current = patt.exec(str)
+
+    start = moment(startStr, 'DD.MM.YYYY HH:mm:ss')
+    end = moment(endStr, 'DD.MM.YYYY HH:mm:ss')
+
+    return {start: start.toDate(), end: end.toDate()}
+
+window.getIntervalFromSrt = getIntervalFromSrt

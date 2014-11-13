@@ -1,5 +1,5 @@
-md5 = require('MD5');
 parse = require('csv-parse')
+moment = require('moment')
 
 excelTimeToDate = (excelTime) ->
     unixtime = (excelTime - 25569) * 86400

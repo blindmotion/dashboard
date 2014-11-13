@@ -4,36 +4,64 @@ class ChartManager
             throw new Error('chartId must not be null')
 
         @chartId = chartId
+        @interval = null
+        @data = null
 
-    drawSpecificData: (data) ->
+    setData: (data) ->
+        if data == null || data == undefined
+            throw new Error('Data is null')
+
+        @data = data
+
+        if @interval != null
+            @drawSpecificData()
+
+    setInterval: (interval) ->
+        if interval == null || interval == undefined
+            throw new Error('Data is null')
+
+        @interval = interval
+
+        if @date != null
+            @drawSpecificData()
+
+    drawSpecificData: () ->
+        if @interval == null
+            throw new Error('Interval not initialized')
+
+        if @data == null
+            throw new Error('Data not initialized')
+
         chartData = []
 
-        for el in data
+        for el in @data
             excelTime = el[2]
             date = excelTimeToDate(excelTime)
 
-            switch el[0]
-                when 1
-                    chartData.push({
-                        date: date,
-                        ax:   el[3],
-                        ay:   el[4],
-                        az:   el[5]
-                    })
-                when 4
-                    chartData.push({
-                        date: date,
-                        gx:   el[3],
-                        gy:   el[4],
-                        gz:   el[5]
-                    })
-                when 'geo'
-                    if excelTime != 'excel time'
+            if date.getTime() >= @interval.start.getTime() && date.getTime() <= @interval.end.getTime()
 
+                switch el[0]
+                    when 1
                         chartData.push({
-                            date:  date,
-                            speed: el[9]
+                            date: date,
+                            ax:   el[3],
+                            ay:   el[4],
+                            az:   el[5]
                         })
+                    when 4
+                        chartData.push({
+                            date: date,
+                            gx:   el[3],
+                            gy:   el[4],
+                            gz:   el[5]
+                        })
+                    when 'geo'
+                        if excelTime != 'excel time'
+
+                            chartData.push({
+                                date:  date,
+                                speed: el[9]
+                            })
 
         fields = ['ax', 'ay', 'az', 'gx', 'gy', 'gz', 'speed']
         @draw(fields, chartData)
@@ -89,7 +117,7 @@ class ChartManager
 
     draw: (fields, chartData) ->
         if chartData.length == 0
-            throw new Error('Empty chart data')
+            console.log('Empty chart data')
 
         @chart = AmCharts.makeChart(@chartId, {
             "type": "serial",
