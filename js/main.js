@@ -1,6 +1,3 @@
-var chart = null;
-var interval = null;
-
 function changeSpeed ()
 {
     var videoNode = document.getElementById('player');
@@ -16,27 +13,7 @@ function changeSpeed ()
 function onLoad() {
     localFileVideoPlayerInit(window);
 
-    chart = new ChartManager('main-chart');
-
-    window.fileLoader.bind('load', function(err, data) {
-        if (err == undefined) {
-            chart.setData(data);
-        } else {
-            console.log(err);
-        }
-    })
-
-    var srtInputManager = new FileSelectorManager('srtInput', 'srtInputLabel');
-    srtInputManager.bind('change', function(input, event) {
-        getDataFromFile(event, function(data) {
-            interval = getIntervalFromSrt(data);
-            chart.setInterval(interval);
-        });
-    });
-
-    var dataInputManager = new FileSelectorManager('dataFileInput', 'dataFileLabel');
-    dataInputManager.bind('change',
-        function(input, event) {window.fileLoader.loadFromFile(event)});
+    coffeemain();
 }
 
 function localFileVideoPlayerInit(win) {

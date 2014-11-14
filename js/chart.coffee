@@ -1,3 +1,5 @@
+window.dataPreprocessor = null
+
 class ChartManager
     SpeedCoefficient = 3.6
 
@@ -27,43 +29,68 @@ class ChartManager
         if @data != null
             @drawSpecificData()
 
-    drawSpecificData: () ->
+    getDataForInterval: () ->
         if @interval == null
-            throw new Error('Interval not initialized')
+            console.log('Interval not initialized')
+            return
 
         if @data == null
-            throw new Error('Data not initialized')
+            console.log('Data not initialized')
+            return
 
-        chartData = []
+        dataset = []
 
         for el in @data
             excelTime = el[2]
             date = excelTimeToDate(excelTime)
 
             if date.getTime() >= @interval.start.getTime() && date.getTime() <= @interval.end.getTime()
+                dataset.push(clone(el))
 
-                switch el[0]
-                    when 1
-                        chartData.push({
-                            date: date,
-                            ax:   el[3],
-                            ay:   el[4],
-                            az:   el[5]
-                        })
-                    when 4
-                        chartData.push({
-                            date: date,
-                            gx:   el[3],
-                            gy:   el[4],
-                            gz:   el[5]
-                        })
-                    when 'geo'
-                        if excelTime != 'excel time'
+        return dataset
 
-                            chartData.push({
-                                date:  date,
-                                speed: el[9] * SpeedCoefficient
-                            })
+    drawSpecificData: () ->
+        if @interval == null
+            console.log('Interval not initialized')
+            return
+
+        if @data == null
+            console.log('Data not initialized')
+            return
+
+        chartData = []
+
+        dataset = @getDataForInterval()
+
+        if dataPreprocessor != null
+            dataset = dataPreprocessor(dataset)
+
+        for el in dataset
+            excelTime = el[2]
+            date = excelTimeToDate(excelTime)
+
+            switch el[0]
+                when 1
+                    chartData.push({
+                        date: date,
+                        ax:   el[3],
+                        ay:   el[4],
+                        az:   el[5]
+                    })
+                when 4
+                    chartData.push({
+                        date: date,
+                        gx:   el[3],
+                        gy:   el[4],
+                        gz:   el[5]
+                    })
+                when 'geo'
+                    if excelTime != 'excel time'
+
+                        chartData.push({
+                            date:  date,
+                            speed: el[9] * SpeedCoefficient
+                        })
 
         fields = ['ax', 'ay', 'az', 'gx', 'gy', 'gz', 'speed']
         @draw(fields, chartData)
@@ -143,7 +170,7 @@ class ChartManager
                 "axisThickness": 2,
                 "gridAlpha": 0,
                 "axisAlpha": 1,
-                "offset" : 50,
+                "offset" : 35,
                 "position": "left"
             },
             {
@@ -152,7 +179,7 @@ class ChartManager
                 "axisThickness": 2,
                 "gridAlpha": 0,
                 "axisAlpha": 1,
-                "offset" : 100,
+                "offset" : 70,
                 "position": "left"
             }],
             "graphs": @generateGraphs(fields),

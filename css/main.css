@@ -59,3 +59,16 @@ body {
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
 }
+
+#code-editor {
+    height: 400px;
+    width: 96%;
+}
+
+#placeholder {
+    height: 20px;
+}
+
+#button-save {
+    margin: 10px 0 0 20px;
+}
