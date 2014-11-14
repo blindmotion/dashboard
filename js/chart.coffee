@@ -1,4 +1,6 @@
 class ChartManager
+    SpeedCoefficient = 3.6
+
     constructor: (chartId) ->
         if chartId == undefined
             throw new Error('chartId must not be null')
@@ -22,7 +24,7 @@ class ChartManager
 
         @interval = interval
 
-        if @date != null
+        if @data != null
             @drawSpecificData()
 
     drawSpecificData: () ->
@@ -60,7 +62,7 @@ class ChartManager
 
                             chartData.push({
                                 date:  date,
-                                speed: el[9]
+                                speed: el[9] * SpeedCoefficient
                             })
 
         fields = ['ax', 'ay', 'az', 'gx', 'gy', 'gz', 'speed']

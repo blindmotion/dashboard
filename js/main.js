@@ -1,4 +1,5 @@
-var chart = undefined;
+var chart = null;
+var interval = null;
 
 function changeSpeed ()
 {
@@ -10,13 +11,6 @@ function changeSpeed ()
 
     speedOutput.value = value;
     videoNode.playbackRate = value;
-}
-
-function test ()
-{
-    var videoNode = document.getElementById('player');
-    var testOutput = document.getElementById("testOutput");
-    testOutput.value = videoNode.currentTime;
 }
 
 function onLoad() {
@@ -35,7 +29,7 @@ function onLoad() {
     var srtInputManager = new FileSelectorManager('srtInput', 'srtInputLabel');
     srtInputManager.bind('change', function(input, event) {
         getDataFromFile(event, function(data) {
-            var interval = getIntervalFromSrt(data);
+            interval = getIntervalFromSrt(data);
             chart.setInterval(interval);
         });
     });
@@ -77,5 +71,5 @@ function localFileVideoPlayerInit(win) {
     var videoInputManager = new FileSelectorManager('videoInput', 'videoInputLabel');
     videoInputManager.bind('change', playSelectedFile, false);
 
-    videoNode.addEventListener('timeupdate', test)
+    videoNode.addEventListener('timeupdate', onVideoTimeChanged)
 };

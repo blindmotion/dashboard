@@ -15,17 +15,20 @@
 <script src="amcharts/serial.js"></script>
 <script src="amcharts/themes/light.js"></script>
 <script src="js/jquery-1.11.1.js"></script>
-<script src="js/compiled/deps.js"></script>s
+<script src="js/compiled/deps.js"></script>
 <script src="js/main.js"></script>
 
 <body onload="onLoad();">
 
 <div id="root" class="container" align="center">
-    <h2>Dashboard</h2>
-    <div id="playerScope" class="container-fluid well">
+    <div id="playerScope" class="container-fluid">
 
         <div class="row">
-            <video id="player" width="640" height="480" controls autoplay></video>
+            <video id="player" width="640" height="427" controls autoplay></video>
+        </div>
+
+        <div class="row" id="time-place">
+            00:00:00
         </div>
 
         <div class="row">
@@ -69,14 +72,12 @@
                 <div class="row">
                     <output id="speedOutput" for="speed">1</output>
                 </div>
-
-                <output id="testOutput" for="player"
-                    style="display: none;">0</output>
             </div>
         </div>
+
     </div>
 
-    <div id="chartScope" class="container-fluid well">
+    <div id="chartScope" class="container-fluid">
         <div class="row" >
             <div id="main-chart" class="chart"></div>
         </div>

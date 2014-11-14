@@ -5,6 +5,7 @@ input {
 video {
     display: block;
     background-color: black;
+    margin: 5px 0 0 0;
 }
 
 body {
