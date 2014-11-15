@@ -233,6 +233,7 @@
       this.chartId = chartId;
       this.interval = null;
       this.data = null;
+      this.lastSelectedTime = null;
     }
 
     ChartManager.prototype.setData = function(data) {
@@ -328,7 +329,7 @@
     };
 
     ChartManager.prototype.generateGraphs = function(fields) {
-      var colorMap, field, graph, graphs, thiknessMap, valueAxisMap, _i, _len;
+      var colorMap, field, graph, graphs, valueAxisMap, _i, _len;
       valueAxisMap = {
         'ax': 'acc',
         'ay': 'acc',
@@ -347,22 +348,13 @@
         'gz': '#B0DE09',
         'speed': '#FF9900'
       };
-      thiknessMap = {
-        'ax': 1,
-        'ay': 1,
-        'az': 1,
-        'gx': 1,
-        'gy': 1,
-        'gz': 1,
-        'speed': 1
-      };
       graphs = [];
       for (_i = 0, _len = fields.length; _i < _len; _i++) {
         field = fields[_i];
         graph = {
           "valueAxis": valueAxisMap[field],
           "lineColor": colorMap[field],
-          "lineThickness": thiknessMap[field],
+          "lineThickness": 1,
           "bullet": "round",
           "bulletBorderThickness": 1,
           "hideBulletsCount": 30,
@@ -376,10 +368,11 @@
     };
 
     ChartManager.prototype.draw = function(fields, chartData) {
+      var handler;
       if (chartData.length === 0) {
         console.log('Empty chart data');
       }
-      return this.chart = AmCharts.makeChart(this.chartId, {
+      this.chart = AmCharts.makeChart(this.chartId, {
         "type": "serial",
         "theme": "dark",
         "pathToImages": "amcharts/images/",
@@ -428,6 +421,14 @@
           "minorGridEnabled": true
         }
       });
+      handler = (function(_this) {
+        return function(event, handler) {
+          if (event.index !== void 0) {
+            return _this.lastSelectedTime = chartData[event.index].date.getTime() - _this.interval.start.getTime();
+          }
+        };
+      })(this);
+      return this.chart.chartCursor.addListener('changed', handler);
     };
 
     return ChartManager;
@@ -501,9 +502,16 @@
       code = localStorage.getItem("code");
       if (code !== null) {
         editor.setValue(localStorage.getItem("code"));
-        return evalPreprocessCode();
+        evalPreprocessCode();
       }
     }
+    return $('#main-chart').dblclick((function(_this) {
+      return function(event) {
+        var videoNode;
+        videoNode = document.getElementById('player');
+        return videoNode.currentTime = Math.round(chart.lastSelectedTime / 1000);
+      };
+    })(this));
   };
 
 }).call(this);

@@ -59,3 +59,7 @@ window.coffeemain = () ->
         if code != null
             editor.setValue(localStorage.getItem("code"))
             evalPreprocessCode()
+
+    $('#main-chart').dblclick( (event) =>
+        videoNode = document.getElementById('player')
+        videoNode.currentTime = Math.round(chart.lastSelectedTime/1000) )

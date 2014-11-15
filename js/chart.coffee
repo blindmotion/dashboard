@@ -10,6 +10,7 @@ class ChartManager
         @chartId = chartId
         @interval = null
         @data = null
+        @lastSelectedTime = null
 
     setData: (data) ->
         if data == null || data == undefined
@@ -117,22 +118,12 @@ class ChartManager
             'speed' : '#FF9900'
         }
 
-        thiknessMap = {
-            'ax' : 1,
-            'ay' : 1,
-            'az' : 1,
-            'gx' : 1,
-            'gy' : 1,
-            'gz' : 1,
-            'speed' : 1
-        }
-
         graphs = []
         for field in fields
             graph = {
                 "valueAxis": valueAxisMap[field],
                 "lineColor": colorMap[field],
-                "lineThickness" : thiknessMap[field],
+                "lineThickness" : 1,
                 "bullet": "round",
                 "bulletBorderThickness": 1,
                 "hideBulletsCount": 30,
@@ -197,6 +188,13 @@ class ChartManager
                 "minorGridEnabled": true
             }
         })
+
+        handler = (event, handler) =>
+            if event.index != undefined
+                @lastSelectedTime = chartData[event.index].date.getTime() -
+                    @interval.start.getTime()
+
+        @chart.chartCursor.addListener('changed', handler)
 
 
 window.ChartManager = ChartManager
