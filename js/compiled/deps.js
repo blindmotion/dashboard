@@ -339,12 +339,12 @@
         'speed': 'speed'
       };
       colorMap = {
-        'ax': '#009900',
-        'ay': '#3366FF',
-        'az': '#FF3300',
-        'gx': '#009900',
-        'gy': '#3366FF',
-        'gz': '#FF3300',
+        'ax': '#FF6600',
+        'ay': '#FCD202',
+        'az': '#B0DE09',
+        'gx': '#FF6600',
+        'gy': '#FCD202',
+        'gz': '#B0DE09',
         'speed': '#FF9900'
       };
       thiknessMap = {
@@ -381,13 +381,13 @@
       }
       return this.chart = AmCharts.makeChart(this.chartId, {
         "type": "serial",
-        "theme": "light",
+        "theme": "dark",
         "pathToImages": "amcharts/images/",
         "dataProvider": chartData,
         "valueAxes": [
           {
             "id": "acc",
-            "axisColor": "#009900",
+            "axisColor": "#FF6600",
             "axisThickness": 3,
             "gridAlpha": 0,
             "axisAlpha": 1,
@@ -396,7 +396,7 @@
             "minimum": -13 - 26
           }, {
             "id": "gyro",
-            "axisColor": "#009900",
+            "axisColor": "#FCD202",
             "axisThickness": 2,
             "gridAlpha": 0,
             "axisAlpha": 1,
@@ -406,7 +406,7 @@
             "minimum": -0.3
           }, {
             "id": "speed",
-            "axisColor": "#FF9900",
+            "axisColor": "#B0DE09",
             "axisThickness": 2,
             "gridAlpha": 0,
             "axisAlpha": 1,
