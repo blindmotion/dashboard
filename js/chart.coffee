@@ -118,9 +118,9 @@ class ChartManager
         }
 
         thiknessMap = {
-            'ax' : 2,
-            'ay' : 2,
-            'az' : 2,
+            'ax' : 1,
+            'ay' : 1,
+            'az' : 1,
             'gx' : 1,
             'gy' : 1,
             'gz' : 1,
@@ -150,11 +150,8 @@ class ChartManager
 
         @chart = AmCharts.makeChart(@chartId, {
             "type": "serial",
-            "theme": "none",
+            "theme": "light",
             "pathToImages": "amcharts/images/",
-            "legend": {
-                "useGraphSettings": true
-            },
             "dataProvider": chartData,
             "valueAxes": [{
                 "id":"acc",
@@ -162,7 +159,9 @@ class ChartManager
                 "axisThickness": 3,
                 "gridAlpha": 0,
                 "axisAlpha": 1,
-                "position": "left"
+                "position": "left",
+                "maximum" : 13,
+                "minimum" : -13 - 26
             },
             {
                 "id":"gyro",
@@ -171,7 +170,9 @@ class ChartManager
                 "gridAlpha": 0,
                 "axisAlpha": 1,
                 "offset" : 35,
-                "position": "left"
+                "position": "left",
+                "maximum" : 0.3 + 0.6,
+                "minimum" : -0.3
             },
             {
                 "id":"speed",
