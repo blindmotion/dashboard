@@ -74,9 +74,15 @@ getIntervalFromSrt = (str) ->
         endStr = current
         current = patt.exec(str)
 
-    start = moment(startStr, 'DD.MM.YYYY HH:mm:ss')
-    end = moment(endStr, 'DD.MM.YYYY HH:mm:ss')
+    startStr = startStr[0].split(' ')[1]
+    endStr = endStr[0].split(' ')[1]
 
-    return {start: start.toDate(), end: end.toDate()}
+    start = moment(startStr, 'HH:mm:ss').toDate()
+    end = moment(endStr, 'HH:mm:ss').toDate()
+
+    start = new Date(start.getTime() % MsecInADay)
+    end = new Date(end.getTime() % MsecInADay)
+
+    return {start: start, end: end}
 
 window.getIntervalFromSrt = getIntervalFromSrt

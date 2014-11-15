@@ -41,11 +41,23 @@ class ChartManager
 
         dataset = []
 
-        for el in @data
-            excelTime = el[2]
-            date = excelTimeToDate(excelTime)
+        startTime = @interval.start.getTime()
+        endTime = @interval.end.getTime()
 
-            if date.getTime() >= @interval.start.getTime() && date.getTime() <= @interval.end.getTime()
+        headerIsCurrent = true
+
+        for el in @data
+            if headerIsCurrent && typeof el[0] != 'number'
+                continue
+
+            headerIsCurrent = false
+
+            timeStr = el[1]
+            date = moment(timeStr, 'HH:mm:ss.SSS').toDate()
+            date = new Date(date.getTime() % MsecInADay)
+            dateTime = date.getTime()
+
+            if dateTime >= startTime && dateTime <= endTime
                 dataset.push(clone(el))
 
         return dataset
@@ -67,8 +79,9 @@ class ChartManager
             dataset = dataPreprocessor(dataset)
 
         for el in dataset
-            excelTime = el[2]
-            date = excelTimeToDate(excelTime)
+            timeStr = el[1]
+            date = moment(timeStr, 'HH:mm:ss.SSS').toDate()
+            date = new Date(date.getTime() % MsecInADay)
 
             switch el[0]
                 when 1
@@ -86,12 +99,10 @@ class ChartManager
                         gz:   el[5]
                     })
                 when 'geo'
-                    if excelTime != 'excel time'
-
-                        chartData.push({
-                            date:  date,
-                            speed: el[9] * SpeedCoefficient
-                        })
+                    chartData.push({
+                        date:  date,
+                        speed: el[9] * SpeedCoefficient
+                    })
 
         fields = ['ax', 'ay', 'az', 'gx', 'gy', 'gz', 'speed']
         @draw(fields, chartData)
@@ -178,7 +189,7 @@ class ChartManager
             "chartScrollbar": {},
             "chartCursor": {
                 "cursorPosition": "mouse",
-                "categoryBalloonDateFormat" : "JJ:NN:SS fff, DD MMMM"
+                "categoryBalloonDateFormat" : "JJ:NN:SS.fff"
             },
             "categoryField": "date",
             "categoryAxis": {
