@@ -126,7 +126,7 @@ class ChartManager
             'gx' : '#FF6600',
             'gy' : '#FCD202',
             'gz' : '#B0DE09',
-            'speed' : '#FF9900'
+            'speed' : '#6699FF'
         }
 
         graphs = []
@@ -173,12 +173,12 @@ class ChartManager
                 "axisAlpha": 1,
                 "offset" : 35,
                 "position": "left",
-                "maximum" : 0.3 + 0.6,
-                "minimum" : -0.3
+                "maximum" : 0.6 + 1.2,
+                "minimum" : -0.6
             },
             {
                 "id":"speed",
-                "axisColor": "#B0DE09",
+                "axisColor": "#6699FF",
                 "axisThickness": 2,
                 "gridAlpha": 0,
                 "axisAlpha": 1,
