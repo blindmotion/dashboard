@@ -1,3 +1,6 @@
+# Copyright (c) 2014, Blind Motion Project 
+# All rights reserved.
+
 class Observer
     constructor: () ->
         @events = {}
