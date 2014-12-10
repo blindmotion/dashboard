@@ -1,3 +1,6 @@
+# Copyright (c) 2014, Blind Motion Project 
+# All rights reserved.
+
 parse = require('csv-parse')
 moment = require('moment')
 coffeescript = require('coffee-script')
