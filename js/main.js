@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014, Blind Motion Project 
+ * Copyright (c) 2014, Blind Motion Project
  * All rights reserved.
  */
 

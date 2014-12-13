@@ -1,4 +1,4 @@
-# Copyright (c) 2014, Blind Motion Project 
+# Copyright (c) 2014, Blind Motion Project
 # All rights reserved.
 
 editor = null
@@ -10,8 +10,10 @@ onVideoTimeChanged = () ->
 
     if interval?
         date = new Date(interval.start.getTime() + Math.round(videoTime * 1000))
-        date = moment(date)
-        timePlace.text(date.format("HH:mm:ss"))
+        m = moment(date)
+        timePlace.text(m.format("HH:mm:ss"))
+        
+        chart.showCursorAt(date)
 
 window.onVideoTimeChanged = onVideoTimeChanged
 
@@ -65,3 +67,18 @@ window.coffeemain = () ->
     $('#main-chart').dblclick( (event) =>
         videoNode = document.getElementById('player')
         videoNode.currentTime = Math.round(chart.lastSelectedTime/1000) )
+
+    videoNode = document.getElementById('player')
+    $(window).keydown( (e) =>
+        if e.target.nodeName.toLowerCase() == 'body'
+            switch e.keyCode
+                when 83
+                    if videoNode.paused
+                        videoNode.play()
+                    else
+                        videoNode.pause()
+                when 65
+                    videoNode.currentTime -= 3
+                when 68
+                    videoNode.currentTime += 3
+    )

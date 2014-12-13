@@ -1,4 +1,4 @@
-# Copyright (c) 2014, Blind Motion Project 
+# Copyright (c) 2014, Blind Motion Project
 # All rights reserved.
 
 window.dataPreprocessor = null
@@ -149,6 +149,10 @@ class ChartManager
 
         return graphs
 
+    showCursorAt: (date) ->
+        if @chart != undefined && !@mouseOver
+            @chart.chartCursor.showCursorAt(date)
+
     draw: (fields, chartData) ->
         if chartData.length == 0
             console.log('Empty chart data')
@@ -203,12 +207,21 @@ class ChartManager
             }
         })
 
-        handler = (event, handler) =>
+        changedHandler = (event, handler) =>
             if event.index != undefined
                 @lastSelectedTime = chartData[event.index].date.getTime() -
                     @interval.start.getTime()
 
-        @chart.chartCursor.addListener('changed', handler)
+        @chart.chartCursor.addListener('changed', changedHandler)
+
+        mouseOverHandler = (event, handler) =>
+            @mouseOver = true
+
+        mouseOutHandler = (event, handler) =>
+            @mouseOver = false
+
+        $('#' + @chartId).mouseover(mouseOverHandler)
+        $('#' + @chartId).mouseout(mouseOutHandler)
 
 
 window.ChartManager = ChartManager

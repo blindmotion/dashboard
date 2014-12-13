@@ -373,8 +373,14 @@
       return graphs;
     };
 
+    ChartManager.prototype.showCursorAt = function(date) {
+      if (this.chart !== void 0 && !this.mouseOver) {
+        return this.chart.chartCursor.showCursorAt(date);
+      }
+    };
+
     ChartManager.prototype.draw = function(fields, chartData) {
-      var handler;
+      var changedHandler, mouseOutHandler, mouseOverHandler;
       if (chartData.length === 0) {
         console.log('Empty chart data');
       }
@@ -427,14 +433,26 @@
           "minorGridEnabled": true
         }
       });
-      handler = (function(_this) {
+      changedHandler = (function(_this) {
         return function(event, handler) {
           if (event.index !== void 0) {
             return _this.lastSelectedTime = chartData[event.index].date.getTime() - _this.interval.start.getTime();
           }
         };
       })(this);
-      return this.chart.chartCursor.addListener('changed', handler);
+      this.chart.chartCursor.addListener('changed', changedHandler);
+      mouseOverHandler = (function(_this) {
+        return function(event, handler) {
+          return _this.mouseOver = true;
+        };
+      })(this);
+      mouseOutHandler = (function(_this) {
+        return function(event, handler) {
+          return _this.mouseOver = false;
+        };
+      })(this);
+      $('#' + this.chartId).mouseover(mouseOverHandler);
+      return $('#' + this.chartId).mouseout(mouseOutHandler);
     };
 
     return ChartManager;
@@ -446,14 +464,15 @@
   editor = null;
 
   onVideoTimeChanged = function() {
-    var date, timePlace, videoNode, videoTime;
+    var date, m, timePlace, videoNode, videoTime;
     videoNode = $('#player');
     timePlace = $('#time-place');
     videoTime = videoNode[0].currentTime;
     if (interval != null) {
       date = new Date(interval.start.getTime() + Math.round(videoTime * 1000));
-      date = moment(date);
-      return timePlace.text(date.format("HH:mm:ss"));
+      m = moment(date);
+      timePlace.text(m.format("HH:mm:ss"));
+      return chart.showCursorAt(date);
     }
   };
 
@@ -474,7 +493,7 @@
   };
 
   window.coffeemain = function() {
-    var code, dataInputManager, srtInputManager;
+    var code, dataInputManager, srtInputManager, videoNode;
     editor = ace.edit("code-editor");
     editor.setTheme("ace/theme/monokai");
     editor.getSession().setMode("ace/mode/coffee");
@@ -511,11 +530,31 @@
         evalPreprocessCode();
       }
     }
-    return $('#main-chart').dblclick((function(_this) {
+    $('#main-chart').dblclick((function(_this) {
       return function(event) {
         var videoNode;
         videoNode = document.getElementById('player');
         return videoNode.currentTime = Math.round(chart.lastSelectedTime / 1000);
+      };
+    })(this));
+    videoNode = document.getElementById('player');
+    return $(window).keydown((function(_this) {
+      return function(e) {
+        if (e.target.nodeName.toLowerCase() === 'body') {
+          switch (e.keyCode) {
+            case 83:
+              if (videoNode.paused) {
+                return videoNode.play();
+              } else {
+                return videoNode.pause();
+              }
+              break;
+            case 65:
+              return videoNode.currentTime -= 3;
+            case 68:
+              return videoNode.currentTime += 3;
+          }
+        }
       };
     })(this));
   };
