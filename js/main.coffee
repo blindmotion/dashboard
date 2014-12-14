@@ -10,9 +10,10 @@ onVideoTimeChanged = () ->
 
     if interval?
         date = new Date(interval.start.getTime() + Math.round(videoTime * 1000))
+        currentDate = date
         m = moment(date)
         timePlace.text(m.format("HH:mm:ss"))
-        
+
         chart.showCursorAt(date)
 
 window.onVideoTimeChanged = onVideoTimeChanged
@@ -36,6 +37,8 @@ window.coffeemain = () ->
 
     $('#button-save').click(onPreprocessorSave)
 
+    initControlPanel()
+
     chart = new ChartManager('main-chart')
 
     window.fileLoader.bind('load', (err, data) =>
@@ -47,11 +50,18 @@ window.coffeemain = () ->
 
     srtInputManager = new FileSelectorManager('srtInput', 'srtInputLabel')
     srtInputManager.bind('change', (input, event) =>
-        getDataFromFile(event, (data) =>
+        filename = event.target.files[0].name
+        extPos = filename.lastIndexOf('.')
+        window.currentFileNameBase = filename.substring(0, extPos)
+
+        getDataFromFile(event.target.files[0], (data) =>
             interval = getIntervalFromSrt(data)
             chart.setInterval(interval)
+            window.srtLoaded = true
         )
     );
+
+    window.srtLoaded = false
 
     dataInputManager = new FileSelectorManager('dataFileInput', 'dataFileLabel');
     dataInputManager.bind('change', (input, event) =>
@@ -67,18 +77,3 @@ window.coffeemain = () ->
     $('#main-chart').dblclick( (event) =>
         videoNode = document.getElementById('player')
         videoNode.currentTime = Math.round(chart.lastSelectedTime/1000) )
-
-    videoNode = document.getElementById('player')
-    $(window).keydown( (e) =>
-        if e.target.nodeName.toLowerCase() == 'body'
-            switch e.keyCode
-                when 83
-                    if videoNode.paused
-                        videoNode.play()
-                    else
-                        videoNode.pause()
-                when 65
-                    videoNode.currentTime -= 3
-                when 68
-                    videoNode.currentTime += 3
-    )

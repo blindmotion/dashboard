@@ -39,6 +39,7 @@ function localFileVideoPlayerInit(win) {
 
             videoNode.src = fileURL;
             videoNode.playbackRate = parseFloat(speedSlider.value);
+            window.videoLoaded = true;
         };
 
     var videoNode = document.getElementById('player');
@@ -54,4 +55,5 @@ function localFileVideoPlayerInit(win) {
     videoInputManager.bind('change', playSelectedFile, false);
 
     videoNode.addEventListener('timeupdate', onVideoTimeChanged)
+    window.videoLoaded = false;
 };

@@ -25,7 +25,35 @@
     <div id="playerScope" class="container-fluid" align="center">
 
         <div class="row">
-            <video id="player" width="450" height="300" controls autoplay></video>
+            <div class="col-md-2 col-xs-2" id="controlPanelLeft" align="left">
+                <span class="label label-default" id="label-capture">W. Capture</span><br/>
+                <span class="label label-default" id="label-back">A. Rew back</span><br/>
+                <span class="label label-default" id="label-forw">D. Rew forw</span><br/>
+                <span class="label label-default" id="label-play">S. Play/pause</span><br/>
+                </br>
+                <span class="label label-success" id="label-export">E. Export all</span><br/>
+                <span class="label label-danger" id="label-reset">R. Reset all</span><br/>
+            </div>
+
+            <div class="col-md-8 col-xs-8">
+                <video id="player" width="450" height="300" controls autoplay></video>
+            </div>
+
+            <div class="col-md-2 col-xs-2" id="controlPanelRight" align="right">
+                <span class="label label-default" id="label-line">1. Line change</span><br/>
+                <span class="label label-default" id="label-avoid">2. Obst avoid</span><br/>
+                <span class="label label-default" id="label-overtake">3. Overtake</span><br/>
+                <span class="label label-default" id="label-45t">4. 45-Turn</span><br/>
+                <span class="label label-default" id="label-90t">5. 90-Turn</span><br/>
+                <span class="label label-default" id="label-180t">6. 180-Turn</span><br/>
+                <br/>
+                <span class="label label-default" id="label-left">[. Left</span><br/>
+                <span class="label label-default" id="label-right">]. Right</span><br/>
+                <br/>
+                <span class="label label-success" id="label-save">Enter. End and save</span><br/>
+                <span class="label label-danger" id="label-cancel">Esc. Cancel one</span><br/>
+            </div>
+
         </div>
 
         <div class="row" id="time-place">

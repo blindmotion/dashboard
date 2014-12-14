@@ -1,9 +1,7 @@
-# Copyright (c) 2014, Blind Motion Project 
+# Copyright (c) 2014, Blind Motion Project
 # All rights reserved.
 
-getDataFromFile = (event, callback) ->
-    file = event.target.files[0]
-
+getDataFromFile = (file, callback) ->
     onData = (event) ->
         data = event.target.result
         callback(data)
