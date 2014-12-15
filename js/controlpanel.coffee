@@ -6,7 +6,7 @@ AllEntriesControlGroup = ['label-export', 'label-reset']
 LeftPanelGroup = PlayControlGroup.concat(AllEntriesControlGroup)
 
 EventTypeGroup = ['label-line', 'label-avoid', 'label-overtake', 'label-45t',
-    'label-90t', 'label-180t']
+    'label-90t', 'label-180t', 'label-dirty']
 DirectionGroup = ['label-left', 'label-right']
 EntryControlGroup = ['label-save', 'label-cancel']
 RightPanelGroup = EventTypeGroup.concat(DirectionGroup).concat(EntryControlGroup)
@@ -124,6 +124,10 @@ setKeyboard = () ->
                     if capture
                         onEventSelected(6)
                         setSelected(['label-180t'])
+                when KeyCodes['0']
+                    if capture
+                        onEventSelected(0)
+                        setSelected(['label-dirty'])
                 when KeyCodes['[']
                     if selectedEvent != null
                         onDirectionSelected(Directions.left)

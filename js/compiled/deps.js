@@ -493,7 +493,7 @@
 
   LeftPanelGroup = PlayControlGroup.concat(AllEntriesControlGroup);
 
-  EventTypeGroup = ['label-line', 'label-avoid', 'label-overtake', 'label-45t', 'label-90t', 'label-180t'];
+  EventTypeGroup = ['label-line', 'label-avoid', 'label-overtake', 'label-45t', 'label-90t', 'label-180t', 'label-dirty'];
 
   DirectionGroup = ['label-left', 'label-right'];
 
@@ -671,6 +671,12 @@
               if (capture) {
                 onEventSelected(6);
                 return setSelected(['label-180t']);
+              }
+              break;
+            case KeyCodes['0']:
+              if (capture) {
+                onEventSelected(0);
+                return setSelected(['label-dirty']);
               }
               break;
             case KeyCodes['[']:
