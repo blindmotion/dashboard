@@ -30,6 +30,21 @@ KeyCodes = {
     'esc' : 27
 }
 
+EventName = {
+    1: 'Line change',
+    2: 'Obstacle avoidance',
+    3: 'Overtake',
+    4: '45-turn',
+    5: '90-turn',
+    6: '180-turn',
+    0: 'Dirty data'
+}
+
+DirectionName = {
+    0: 'left',
+    1: 'right'
+}
+
 interval = null
 chart = null
 currentDate = null

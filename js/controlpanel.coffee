@@ -155,6 +155,7 @@ setKeyboard = () ->
                             end: moment(eventTimeEnd).format("HH:mm:ss")
                         }
                         events.push(event)
+                        chart.addEventToChart(event)
 
                         setNotSelected(RightPanelGroup)
                         setHidden(RightPanelGroup)
@@ -168,6 +169,8 @@ setKeyboard = () ->
                     if events.length > 0
                         downloadFile(JSON.stringify(events))
 
+                        chart.removeAllEventsFromChart()
+
                         setNotSelected(LeftRightPanelGroup)
                         setHidden(LeftRightPanelGroup)
                         selectedEvent = null
@@ -178,6 +181,8 @@ setKeyboard = () ->
                         setVisible(PlayControlGroup)
                 when KeyCodes['r']
                     if events.length > 0
+                        chart.removeAllEventsFromChart()
+
                         setNotSelected(LeftRightPanelGroup)
                         setHidden(LeftRightPanelGroup)
                         selectedEvent = null

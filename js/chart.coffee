@@ -153,6 +153,25 @@ class ChartManager
         if @chart != undefined && !@mouseOver
             @chart.chartCursor.showCursorAt(date)
 
+    addEventToChart: (event) ->
+        guide = new AmCharts.Guide()
+        guide.date = new Date(moment(event.start, "HH:mm:ss").toDate().getTime() % MsecInADay)
+        guide.toDate = new Date(moment(event.end, "HH:mm:ss").toDate().getTime() % MsecInADay)
+        guide.lineColor = "#CC0000"
+        guide.lineAlpha = 1
+        guide.dashLength = 2
+        guide.inside = true
+        guide.labelRotation = 90
+        guide.label = EventName[event.type] + ' (' + DirectionName[event.direction] + ')'
+
+        @chart.categoryAxis.addGuide(guide)
+        @chart.validateNow()
+
+    removeAllEventsFromChart: () ->
+        @chart.categoryAxis.guides = []
+        @chart.validateNow()
+
+
     draw: (fields, chartData) ->
         if chartData.length == 0
             console.log('Empty chart data')
@@ -204,6 +223,16 @@ class ChartManager
                 "minPeriod": "fff",
                 "axisColor": "#DADADA",
                 "minorGridEnabled": true
+            },
+            "legend": {
+                "horizontalGap": 10,
+                "marginLeft" : 5,
+                "marginRight" : 5,
+                "spacing" : 5,
+                "valueText" : "",
+                "valueWidth" : 20,
+                "markerType" : "circle",
+                "markerSize" : 12
             }
         })
 
