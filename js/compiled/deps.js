@@ -829,7 +829,7 @@
   };
 
   window.coffeemain = function() {
-    var code, dataInputManager, srtInputManager;
+    var code, dataInputManager, eventsInputManager, srtInputManager;
     editor = ace.edit("code-editor");
     editor.setTheme("ace/theme/monokai");
     editor.getSession().setMode("ace/mode/coffee");
@@ -856,6 +856,22 @@
           interval = getIntervalFromSrt(data);
           chart.setInterval(interval);
           return window.srtLoaded = true;
+        });
+      };
+    })(this));
+    eventsInputManager = new FileSelectorManager('eventsFileInput', 'eventsFileLabel');
+    eventsInputManager.bind('change', (function(_this) {
+      return function(input, event) {
+        return getDataFromFile(event.target.files[0], function(data) {
+          var _i, _len, _results;
+          events = JSON.parse(data);
+          chart.removeAllEventsFromChart();
+          _results = [];
+          for (_i = 0, _len = events.length; _i < _len; _i++) {
+            event = events[_i];
+            _results.push(chart.addEventToChart(event));
+          }
+          return _results;
         });
       };
     })(this));

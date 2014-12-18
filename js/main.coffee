@@ -61,6 +61,16 @@ window.coffeemain = () ->
         )
     );
 
+    eventsInputManager = new FileSelectorManager('eventsFileInput', 'eventsFileLabel')
+    eventsInputManager.bind('change', (input, event) =>
+        getDataFromFile(event.target.files[0], (data) =>
+            events = JSON.parse(data)
+            chart.removeAllEventsFromChart()
+            for event in events
+                 chart.addEventToChart(event)
+        )
+    );
+
     window.srtLoaded = false
 
     dataInputManager = new FileSelectorManager('dataFileInput', 'dataFileLabel');
