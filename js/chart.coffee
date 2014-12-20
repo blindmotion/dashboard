@@ -153,6 +153,12 @@ class ChartManager
         if @chart != undefined && !@mouseOver
             @chart.chartCursor.showCursorAt(date)
 
+    showEvents: (events) ->
+        if events != null
+            @removeAllEventsFromChart()
+            for event in events
+                 @addEventToChart(event)
+
     addEventToChart: (event) ->
         guide = new AmCharts.Guide()
         guide.date = new Date(moment(event.start, "HH:mm:ss").toDate().getTime() % MsecInADay)
@@ -251,6 +257,8 @@ class ChartManager
 
         $('#' + @chartId).mouseover(mouseOverHandler)
         $('#' + @chartId).mouseout(mouseOutHandler)
+
+        @showEvents(allEvents)
 
 
 window.ChartManager = ChartManager

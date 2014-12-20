@@ -49,6 +49,7 @@ interval = null
 chart = null
 currentDate = null
 currentFileNameBase = null
+allEvents = null
 
 clone = (obj) ->
   if not obj? or typeof obj isnt 'object'
