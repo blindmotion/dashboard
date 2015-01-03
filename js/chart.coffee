@@ -1,4 +1,4 @@
-# Copyright (c) 2014, Blind Motion Project 
+# Copyright (c) 2014, Blind Motion Project
 # All rights reserved.
 
 window.dataPreprocessor = null
@@ -149,6 +149,35 @@ class ChartManager
 
         return graphs
 
+    showCursorAt: (date) ->
+        if @chart != undefined && !@mouseOver
+            @chart.chartCursor.showCursorAt(date)
+
+    showEvents: (events) ->
+        if events != null
+            @removeAllEventsFromChart()
+            for event in events
+                 @addEventToChart(event)
+
+    addEventToChart: (event) ->
+        guide = new AmCharts.Guide()
+        guide.date = new Date(moment(event.start, "HH:mm:ss").toDate().getTime() % MsecInADay)
+        guide.toDate = new Date(moment(event.end, "HH:mm:ss").toDate().getTime() % MsecInADay)
+        guide.lineColor = "#CC0000"
+        guide.lineAlpha = 1
+        guide.dashLength = 2
+        guide.inside = true
+        guide.labelRotation = 90
+        guide.label = EventName[event.type] + ' (' + DirectionName[event.direction] + ')'
+
+        @chart.categoryAxis.addGuide(guide)
+        @chart.validateNow()
+
+    removeAllEventsFromChart: () ->
+        @chart.categoryAxis.guides = []
+        @chart.validateNow()
+
+
     draw: (fields, chartData) ->
         if chartData.length == 0
             console.log('Empty chart data')
@@ -200,15 +229,36 @@ class ChartManager
                 "minPeriod": "fff",
                 "axisColor": "#DADADA",
                 "minorGridEnabled": true
+            },
+            "legend": {
+                "horizontalGap": 10,
+                "marginLeft" : 5,
+                "marginRight" : 5,
+                "spacing" : 5,
+                "valueText" : "",
+                "valueWidth" : 20,
+                "markerType" : "circle",
+                "markerSize" : 12
             }
         })
 
-        handler = (event, handler) =>
+        changedHandler = (event, handler) =>
             if event.index != undefined
                 @lastSelectedTime = chartData[event.index].date.getTime() -
                     @interval.start.getTime()
 
-        @chart.chartCursor.addListener('changed', handler)
+        @chart.chartCursor.addListener('changed', changedHandler)
+
+        mouseOverHandler = (event, handler) =>
+            @mouseOver = true
+
+        mouseOutHandler = (event, handler) =>
+            @mouseOver = false
+
+        $('#' + @chartId).mouseover(mouseOverHandler)
+        $('#' + @chartId).mouseout(mouseOutHandler)
+
+        @showEvents(allEvents)
 
 
 window.ChartManager = ChartManager
